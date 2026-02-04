@@ -23,7 +23,7 @@ export const getMyInterviews = query({
   }
 })
 // get all interviews by stream call id
-export const getInterviewsByStreamCallId = query({
+export const getInterviewByStreamCallId = query({
   args: { streamCallId: v.string() },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
