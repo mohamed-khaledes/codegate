@@ -23,9 +23,9 @@ export default defineSchema({
     .index('by_stream_call_id', ['streamCallId']),
   // comments
   comments: defineTable({
-    contend: v.string(),
+    content: v.string(),
     rating: v.string(),
     interviewerId: v.string(),
-    interviewID: v.id('interviews')
-  }).index('interview_id', ['interviewID'])
+    interviewId: v.id('interviews')
+  }).index('interview_id', ['interviewId'])
 })

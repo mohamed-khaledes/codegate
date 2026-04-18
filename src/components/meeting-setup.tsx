@@ -8,7 +8,7 @@ import { Button } from './ui/button'
 function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
   const [isCameraDisabled, setIsCameraDisabled] = useState(true)
   const [isMicDisabled, setIsMicDisabled] = useState(false)
-
+  const [loading, setLoading] = useState(false)
   const call = useCall()
 
   if (!call) return null
@@ -24,7 +24,9 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
   }, [isMicDisabled, call.microphone])
 
   const handleJoin = async () => {
+    setLoading(true)
     await call.join()
+    setLoading(false)
     onSetupComplete()
   }
 
@@ -114,7 +116,7 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
 
                 {/* JOIN BTN */}
                 <div className='space-y-3 mt-8'>
-                  <Button className='w-full' size='lg' onClick={handleJoin}>
+                  <Button disabled={loading} className='w-full' size='lg' onClick={handleJoin}>
                     Join Meeting
                   </Button>
                   <p className='text-xs text-center text-muted-foreground'>

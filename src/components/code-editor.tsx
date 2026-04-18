@@ -161,7 +161,7 @@ function CodeEditor() {
       <ResizableHandle withHandle />
 
       {/* CODE EDITOR */}
-      <ResizablePanel defaultSize={60} maxSize={100}>
+      <ResizablePanel defaultSize={'60%'} maxSize={'100%'}>
         <div className='h-full relative'>
           <Editor
             height={'100%'}
@@ -169,7 +169,7 @@ function CodeEditor() {
             language={language}
             theme='vs-dark'
             value={code}
-            onChange={(value: any) => setCode(value || '')}
+            onChange={value => setCode(value || '')}
             options={{
               minimap: { enabled: false },
               fontSize: 18,

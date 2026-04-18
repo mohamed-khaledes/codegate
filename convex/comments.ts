@@ -3,10 +3,10 @@ import { mutation, query } from './_generated/server'
 
 export const addComment = mutation({
   args: {
-    contend: v.string(),
+    content: v.string(),
     rating: v.string(),
-    interviewID: v.id('interviews'),
-    interviewerId: v.string()
+    interviewId: v.id('interviews'),
+    interviewerId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -25,7 +25,7 @@ export const getComments = query({
   handler: async (ctx, args) => {
     const comments = await ctx.db
       .query('comments')
-      .withIndex('interview_id', q => q.eq('interviewID', args.interviewId))
+      .withIndex('interview_id', q => q.eq('interviewId', args.interviewId))
       .collect()
     return comments
   }

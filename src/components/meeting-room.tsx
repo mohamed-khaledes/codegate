@@ -17,8 +17,8 @@ import {
   DropdownMenuTrigger
 } from './ui/dropdown-menu'
 import { Button } from './ui/button'
-import EndCallButton from './end-call-button'
 import CodeEditor from './code-editor'
+import EndCallButton from './end-call-button'
 
 function MeetingRoom() {
   const router = useRouter()
@@ -37,16 +37,16 @@ function MeetingRoom() {
   }
 
   return (
-    <div className='h-[calc(100vh-4rem-1px)]'>
-      <ResizablePanelGroup direction='horizontal'>
-        <ResizablePanel defaultSize={35} minSize={25} maxSize={100} className='relative'>
+    <div className='h-[calc(100vh-4rem-1px)] overflow-hidden'>
+      <ResizablePanelGroup orientation='horizontal' className='w-full h-full rounded-lg border'>
+        <ResizablePanel defaultSize={'50%'} className='relative w-full'>
           {/* VIDEO LAYOUT */}
           <div className='absolute inset-0'>
             {layout === 'grid' ? <PaginatedGridLayout /> : <SpeakerLayout />}
 
             {/* PARTICIPANTS LIST OVERLAY */}
             {showParticipants && (
-              <div className='absolute right-0 top-0 h-full w-[300px] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+              <div className='absolute right-0 top-0 h-full w-[300px] z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
                 <CallParticipantsList onClose={() => setShowParticipants(false)} />
               </div>
             )}
@@ -54,7 +54,7 @@ function MeetingRoom() {
 
           {/* VIDEO CONTROLS */}
 
-          <div className='absolute bottom-4 left-0 right-0'>
+          <div className='absolute bottom-4 left-0 right-0 z-20'>
             <div className='flex flex-col items-center gap-4'>
               <div className='flex items-center gap-2 flex-wrap justify-center px-4'>
                 <CallControls onLeave={() => router.push('/')} />
@@ -91,10 +91,8 @@ function MeetingRoom() {
             </div>
           </div>
         </ResizablePanel>
-
         <ResizableHandle withHandle />
-
-        <ResizablePanel defaultSize={65} minSize={25}>
+        <ResizablePanel defaultSize={'50%'} className='relative w-full'>
           <CodeEditor />
         </ResizablePanel>
       </ResizablePanelGroup>
