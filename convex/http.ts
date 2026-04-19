@@ -45,16 +45,18 @@ http.route({
     const eventType = evt.type
 
     if (eventType === 'user.created') {
-      const { id, email_addresses, first_name, last_name, image_url } = evt.data
+      const { id, email_addresses, first_name, last_name, image_url, unsafe_metadata } = evt.data
 
       const email = email_addresses[0].email_address
       const name = `${first_name || ''} ${last_name || ''}`.trim()
+      const role = (unsafe_metadata?.role as 'interviewer' | 'candidate') || 'candidate' // default to candidate
 
       try {
         await ctx.runMutation(api.users.syncUser, {
           clerkId: id,
           email,
           name,
+          role,
           image: image_url
         })
       } catch (error) {
@@ -62,7 +64,6 @@ http.route({
         return new Response('Error creating user', { status: 500 })
       }
     }
-
     return new Response('Webhook processed successfully', { status: 200 })
   })
 })

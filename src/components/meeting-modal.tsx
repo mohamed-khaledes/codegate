@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import useMeetingActions from '@/hooks/useMeetingActions'
+import LoaderUI from './loader'
 
 interface MeetingModalProps {
   isOpen: boolean
@@ -13,7 +14,7 @@ interface MeetingModalProps {
 
 function MeetingModal({ isOpen, onClose, title, isJoinMeeting }: MeetingModalProps) {
   const [meetingUrl, setMeetingUrl] = useState('')
-  const { createInstantMeeting, joinMeeting } = useMeetingActions()
+  const { createInstantMeeting, joinMeeting, loading } = useMeetingActions()
 
   const handleStart = () => {
     if (isJoinMeeting) {
@@ -23,9 +24,7 @@ function MeetingModal({ isOpen, onClose, title, isJoinMeeting }: MeetingModalPro
     } else {
       createInstantMeeting()
     }
-
     setMeetingUrl('')
-    onClose()
   }
 
   return (
@@ -48,7 +47,12 @@ function MeetingModal({ isOpen, onClose, title, isJoinMeeting }: MeetingModalPro
             <Button variant='outline' onClick={onClose}>
               Cancel
             </Button>
-            <Button onClick={handleStart} disabled={isJoinMeeting && !meetingUrl.trim()}>
+            <Button
+              className='relative'
+              onClick={handleStart}
+              disabled={isJoinMeeting && !meetingUrl.trim()}
+            >
+              {loading && <LoaderUI />}
               {isJoinMeeting ? 'Join Meeting' : 'Start Meeting'}
             </Button>
           </div>

@@ -9,7 +9,9 @@ import Editor from '@monaco-editor/react'
 
 function CodeEditor() {
   const [selectedQuestion, setSelectedQuestion] = useState(CODING_QUESTIONS[0])
-  const [language, setLanguage] = useState<'javascript' | 'python' | 'java'>(LANGUAGES[0].id)
+  const [language, setLanguage] = useState<'javascript' | 'python' | 'java' | 'cpp' | 'csharp'>(
+    LANGUAGES[0].id
+  )
   const [code, setCode] = useState(selectedQuestion.starterCode[language])
 
   const handleQuestionChange = (questionId: string) => {
@@ -18,11 +20,12 @@ function CodeEditor() {
     setCode(question.starterCode[language])
   }
 
-  const handleLanguageChange = (newLanguage: 'javascript' | 'python' | 'java') => {
+  const handleLanguageChange = (
+    newLanguage: 'javascript' | 'python' | 'java' | 'cpp' | 'csharp'
+  ) => {
     setLanguage(newLanguage)
     setCode(selectedQuestion.starterCode[newLanguage])
   }
-
   return (
     <ResizablePanelGroup direction='vertical' className='min-h-[calc-100vh-4rem-1px]'>
       {/* QUESTION SECTION */}
@@ -64,7 +67,7 @@ function CodeEditor() {
                           <img
                             src={`/${language}.png`}
                             alt={language}
-                            className='w-5 h-5 object-contain'
+                            className='w-6 h-6 object-contain'
                           />
                           {LANGUAGES.find(l => l.id === language)?.name}
                         </div>
@@ -78,7 +81,7 @@ function CodeEditor() {
                             <img
                               src={`/${lang.id}.png`}
                               alt={lang.name}
-                              className='w-5 h-5 object-contain'
+                              className='w-6 h-6 object-contain'
                             />
                             {lang.name}
                           </div>
@@ -111,7 +114,7 @@ function CodeEditor() {
                 <CardContent>
                   <ScrollArea className='h-full w-full rounded-md border'>
                     <div className='p-4 space-y-4'>
-                      {selectedQuestion.examples.map((example, index) => (
+                      {selectedQuestion?.examples.map((example, index) => (
                         <div key={index} className='space-y-2'>
                           <p className='font-medium text-sm'>Example {index + 1}:</p>
                           <ScrollArea className='h-full w-full rounded-md'>
@@ -119,9 +122,9 @@ function CodeEditor() {
                               <div>Input: {example.input}</div>
                               <div>Output: {example.output}</div>
                               {example.explanation && (
-                                <div className='pt-2 text-muted-foreground'>
+                                <p className='pt-2 text-muted-foreground text-wrap'>
                                   Explanation: {example.explanation}
-                                </div>
+                                </p>
                               )}
                             </pre>
                             <ScrollBar orientation='horizontal' />
